@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import * as L from 'leaflet';
+import { ServiceService } from '../service.service';
 
 @Component({
   selector: 'app-home',
@@ -9,16 +10,18 @@ import * as L from 'leaflet';
 export class HomeComponent implements OnInit {
   public map: any;
 
-  constructor() { }
+  constructor(
+    public service: ServiceService
+  ) { }
 
   ngOnInit() {
     this.loadMap();
   }
 
-  loadMap() {
+  async loadMap() {
     this.map = new L.Map('map', {
-      center: [17.73, 100.55],
-      zoom: 9
+      center: [17.747829, 100.002905],
+      zoom: 13
     });
 
     const mbox = L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
@@ -47,7 +50,6 @@ export class HomeComponent implements OnInit {
     const w3Url = 'http://www3.cgistln.nu.ac.th/geoserver/gistdata/ows?';
     const firms = 'https://firms.modaps.eosdis.nasa.gov/wms?';
 
-
     const pro = L.tileLayer.wms(cgiUrl, {
       layers: 'th:province_4326',
       format: 'image/png',
@@ -57,7 +59,7 @@ export class HomeComponent implements OnInit {
     });
 
     const amp = L.tileLayer.wms(cgiUrl, {
-      layers: '	th:amphoe_4326',
+      layers: 'th:amphoe_4326',
       format: 'image/png',
       transparent: true,
       zIndex: 5,
@@ -72,6 +74,13 @@ export class HomeComponent implements OnInit {
       CQL_FILTER: 'pro_code=53 OR pro_code=54 OR pro_code=65 OR pro_code=64'
     });
 
+    const stream = L.tileLayer.wms(cgiUrl, {
+      layers: 'upn:ll_stream',
+      format: 'image/png',
+      transparent: true,
+      zIndex: 5
+    });
+
     const rainInterp = L.tileLayer.wms(w3Url, {
       layers: 'gistdata:geotiff_coverage',
       format: 'image/png',
@@ -79,20 +88,50 @@ export class HomeComponent implements OnInit {
       zIndex: 1
     });
 
-    const baseMap = {
-      'แผนที่ถนน': grod.addTo(this.map),
-      'แผนที่ภูมิประเทศ': gter,
-      'แผนที่ผสม': ghyb
-    }
+    const markers = await L.layerGroup().addTo(this.map);
 
+    const baseMap = {
+      'แผนที่ถนน': grod,
+      'แผนที่ภูมิประเทศ': gter.addTo(this.map),
+      'แผนที่ผสม': ghyb
+    };
 
     const overLay = {
       'ขอบเขตจังหวัด': pro.addTo(this.map),
       'ขอบเขตอำเภอ': amp.addTo(this.map),
-      'ขอบเขตตำบล': tam.addTo(this.map)
-    }
+      'ขอบเขตตำบล': tam.addTo(this.map),
+      'แหล่งน้ำ': stream.addTo(this.map)
+    };
 
     L.control.layers(baseMap, overLay).addTo(this.map);
+
+    const markerIcon = await this.service.blueIcon;
+
+    const iconNow = L.icon({
+      iconUrl: markerIcon,
+      iconSize: [32, 32],
+      iconAnchor: [12, 37],
+      popupAnchor: [5, -30]
+    });
+
+    this.service.getCheckpoint().then((res: any) => {
+      const marker = L.geoJSON(res, {
+        pointToLayer: (feature: any, latlon: any) => {
+          return L.marker(latlon, {
+            icon: iconNow,
+            iconName: 'dengue'
+          });
+        },
+        onEachFeature: (feature: any, layer: any) => {
+          if (feature.properties) {
+            layer.bindPopup(
+              'ชื่อ: ' + feature.properties.vill_nam_t + '</br>'
+            );
+          }
+        }
+      });
+      markers.addLayer(marker);
+    });
 
   }
 
