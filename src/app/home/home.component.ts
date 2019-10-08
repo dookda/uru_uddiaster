@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import * as L from 'leaflet';
 import { ServiceService } from '../service.service';
+import { AngularFirestore } from '@angular/fire/firestore';
 
 @Component({
   selector: 'app-home',
@@ -9,9 +10,17 @@ import { ServiceService } from '../service.service';
 })
 export class HomeComponent implements OnInit {
   public map: any;
+  public streamShow = false;
+  public rainShow = false;
+  public stName: any;
+  public stDesc: any;
+  public stLat: any;
+  public stLon: any;
+  public stImg: any;
 
   constructor(
-    public service: ServiceService
+    public service: ServiceService,
+    public firestore: AngularFirestore
   ) { }
 
   ngOnInit() {
@@ -20,7 +29,7 @@ export class HomeComponent implements OnInit {
 
   async loadMap() {
     this.map = new L.Map('map', {
-      center: [17.747829, 100.002905],
+      center: [17.707829, 100.002905],
       zoom: 13
     });
 
@@ -88,7 +97,8 @@ export class HomeComponent implements OnInit {
       zIndex: 1
     });
 
-    const markers = await L.layerGroup().addTo(this.map);
+    const strmSta = await L.layerGroup();
+    const rainSta = await L.layerGroup();
 
     const baseMap = {
       'แผนที่ถนน': grod,
@@ -100,39 +110,131 @@ export class HomeComponent implements OnInit {
       'ขอบเขตจังหวัด': pro.addTo(this.map),
       'ขอบเขตอำเภอ': amp.addTo(this.map),
       'ขอบเขตตำบล': tam.addTo(this.map),
-      'แหล่งน้ำ': stream.addTo(this.map)
+      'เส้นลำน้ำ': stream.addTo(this.map),
+      'สถานีตรวจวัดปริมาณน้ำฝน': rainSta.addTo(this.map),
+      'ตำแหน่งวัดปริมาณน้ำท่า': strmSta.addTo(this.map)
     };
 
     L.control.layers(baseMap, overLay).addTo(this.map);
 
-    const markerIcon = await this.service.blueIcon;
-
-    const iconNow = L.icon({
-      iconUrl: markerIcon,
+    // const blueIcon = await this.service.blueIcon;
+    const blueIcon = L.icon({
+      iconUrl: await this.service.blueIcon,
       iconSize: [32, 32],
       iconAnchor: [12, 37],
       popupAnchor: [5, -30]
     });
 
-    this.service.getCheckpoint().then((res: any) => {
-      const marker = L.geoJSON(res, {
-        pointToLayer: (feature: any, latlon: any) => {
-          return L.marker(latlon, {
-            icon: iconNow,
-            iconName: 'dengue'
-          });
-        },
-        onEachFeature: (feature: any, layer: any) => {
-          if (feature.properties) {
-            layer.bindPopup(
-              'ชื่อ: ' + feature.properties.vill_nam_t + '</br>'
-            );
-          }
-        }
-      });
-      markers.addLayer(marker);
+    const greenIcon = L.icon({
+      iconUrl: await this.service.greenIcon,
+      iconSize: [32, 32],
+      iconAnchor: [12, 37],
+      popupAnchor: [5, -30]
     });
 
+    const grayIcon = L.icon({
+      iconUrl: await this.service.grayIcon,
+      iconSize: [32, 32],
+      iconAnchor: [12, 37],
+      popupAnchor: [5, -30]
+    });
+
+    // this.service.getCheckpoint().then((res: any) => {
+    //   const marker = L.geoJSON(res, {
+    //     pointToLayer: (feature: any, latlon: any) => {
+    //       return L.marker(latlon, {
+    //         icon: blueIcon,
+    //         iconName: 'strmSta'
+    //       });
+    //     },
+    //     onEachFeature: (feature: any, layer: any) => {
+    //       if (feature.properties) {
+    //         layer.bindPopup(
+    //           `${feature.properties.sta_addres}`, {
+    //             maxWidth: '300'
+    //           }
+    //         );
+    //       }
+    //     }
+    //   });
+    //   marker.on('click', (e: any) => {
+    //     this.showStreamDetail(e);
+    //   });
+    //   marker.addTo(strmSta);
+    // });
+
+    const station = this.firestore.collection('station');
+    station.get().subscribe((snapshot) => {
+      const sList = snapshot.docs.map(doc => ({ ...doc.data() }));
+      sList.forEach(poi => {
+        // console.log(poi);
+        const latlng = L.latLng(poi.lat, poi.lon);
+        const marker = L.marker(latlng, {
+          icon: blueIcon,
+          iconName: 'strmSta'
+        });
+        marker.properties = poi;
+        marker.addTo(strmSta);
+        marker.bindPopup(poi.location).openPopup();
+        marker.on('click', (e: any) => {
+          this.showStreamDetail(e);
+        });
+      });
+    });
+
+
+    // tslint:disable-next-line: max-line-length
+    const staList = ['530100-001', '530102-001', '530104-001', '530105-001', '530106-001', '530107-001', '530108-001', '530110-001', '530112-001', '530113-001', '530114-001', '530115-001', '530116-001', '530200-001', '530201-001', '530202-001', '530202-002', '530203-001', '530204-001', '530205-001', '530301-001', '530301-002', '530303-001', '530303-002', '530304-001', '530305-001', '530306-001', '530308-001', '530400-001', '530401-001', '530402-001', '530403-001', '530404-001', '530405-001', '530405-002', '530406-001', '530500-001', '530501-001', '530502-001', '530503-001', '530504-001', '530600-001', '530601-001', '530603-001', '530604-001', '530701-001', '530701-002', '530702-001', '530703-001', '530704-001', '530704-002', '530705-001', '530706-001', '530707-001', '530708-001', '530709-001', '530710-001', '530711-001', '530801-001', '530801-002', '530802-001', '530802-002', '530802-003', '530802-004', '530802-005', '530802-006', '530802-007', '530802-008', '530803-001', '530804-001', '530804-002', '530805-001', '530806-001', '530807-001', '530807-002', '530808-001', '530900-001', '530901-001', '530902-001', '530903-001', '530904-001', '670312-001', '670402-001', '540118-001', '540702-001', '640505-001', '500513-001', '540702-001', '540118-001']
+
+    staList.forEach((value, index, array) => {
+      this.service.getMeteoService(value).then((res: any) => {
+        // console.log(res.current_observation);
+
+        const str = res.current_observation.observation_time._text;
+        // console.log(str.split(' '));
+        // const da = '22/03/2016 14:03:01';
+        // console.log(da.toDate('dd/mm/yyyy hh:ii:ss'))
+
+        const latlon = L.latLng(Number(res.current_observation.latitude._text), res.current_observation.longitude._text);
+
+        const marker = L.marker(latlon, {
+          icon: greenIcon,
+          iconName: 'rainSta'
+        });
+        marker.properties = res.current_observation;
+        marker.bindPopup(
+          `ชื่อ station: ${res.current_observation.station_id._text}<br>
+         สถานที่: ${res.current_observation.location._text}<br>`
+        );
+        marker.on('click', (e: any) => {
+          this.showRainDetail(e);
+        });
+        marker.addTo(rainSta);
+      });
+    });
   }
+
+  showStreamDetail(e: any) {
+    console.log(e);
+    this.streamShow = true;
+    this.rainShow = false;
+    this.stName = e.sourceTarget.properties.location;
+    this.stLat = e.sourceTarget.properties.lat;
+    this.stLon = e.sourceTarget.properties.lon;
+    this.stImg = `http://cgi.uru.ac.th/dws-resources/${e.sourceTarget.properties.img}`;
+    this.map.panTo(e.latlng);
+  }
+
+  showRainDetail(e: any) {
+    // console.log(e);
+    this.rainShow = true;
+    this.streamShow = false;
+    this.stName = e.sourceTarget.properties.location._text;
+    this.stLat = e.sourceTarget.properties.latitude._text;
+    this.stLon = e.sourceTarget.properties.longitude._text;
+    this.stDesc = e.sourceTarget.properties;
+    this.map.panTo(e.latlng);
+  }
+
 
 }

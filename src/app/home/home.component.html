@@ -1,21 +1,46 @@
 <div class="mb-6">
-  <div class="container">
-
-    <div class="jumbotron">
+  <div class="card border-secondary mb-3">
+    <div class="card-body">
       <h3>ระบบเฝ้าระวังและเตือนภัยธรรมชาติ จังหวัดอุตรดิตถ์</h3>
       <p class="card-text">
         วิจัยนี้จึงมีจุดมุ่งหมายเพื่อพัฒนาระบบสารสนเทศของจังหวัดสำหรับการพยากรณ์และแจ้งเตือนภัยโดยครอบคลุมภัยที่เคยเกิดขึ้นและสร้างความเสียหายจากดินโคลนถล่ม
         น้ำป่าไหลหลาก ภัยแล้ง และไฟป่า เพื่อให้เป็นเครื่องมือสำคัญที่ช่วยเพิ่มความไว (Sensibility)
         ต่อการติดตามสถานกาณ์เกิดภัยเพื่อให้หน่วยงานที่เกี่ยวข้องสามารถรับมือกับสถานการณ์ได้ทัน
         ลดความสูญเสียที่จะเกิดขึ้น และเป็นข้อมูลสำคัญที่ช่วยขับเคลื่อนงานด้านอื่นๆ ของจังหวัด</p>
-      <hr class="my-4">
-      <p>สนับสนุนโดย มหาวิทยาลัยราชภัฏอุตรดิตถ์ และสำนักงานกองทุนสนับสนุนการวิจัย</p>
-      <img src="assets/images/trfuru.png">
+    </div>
+  </div>
 
+  <div class="row">
+    <div class="col-sm-8">
+      <div class="card border-primary mb-3">
+        <div id="map">
+        </div>
+      </div>
     </div>
 
-    <div class="card border-primary mb-3">
-      <div id="map">
+    <div class="col-sm-4">
+      <div class="card" id="info">
+        <div style="padding: 2%" *ngIf="streamShow">
+          <h5> {{stName}} </h5>
+          <p>lat: {{stLat}} lon: {{stLon}}</p>
+          <hr>
+          ระดับน้ำ <br> <span style="font-size: 56px">10
+          </span>เมตร
+          <img [src]="stImg" width="100%">
+        </div>
+
+        <div style="padding: 2%" *ngIf="rainShow">
+          <h5> {{stName}} </h5>
+          ชื่อสถานี: {{stDesc.station_id._text}}<br>
+          พิกัด: {{stDesc.latitude._text}}, {{stDesc.longitude._text}}<br>
+          <hr>
+          ปริมาณน้ำฝน 1 hr: {{stDesc.rain_1hr._text}}<br>
+          ปริมาณน้ำฝน 3 hr: {{stDesc.rain_3hr._text}}<br>
+          ปริมาณน้ำฝน 24 hr: {{stDesc.rain_24hr._text}}<br>
+          ปริมาณน้ำฝน 72 hr: {{stDesc.rain_72hr._text}}<br>
+          เวลาที่บันทึก: {{stDesc.observation_time._text}}<br>
+        </div>
+
       </div>
     </div>
   </div>

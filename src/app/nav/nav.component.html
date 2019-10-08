@@ -1,31 +1,30 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
-  <div class="container">
-    <a class="navbar-brand" href="#">เฝ้าระวังภัยฯ อุตรดิตถ์</a>
-    <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarColor01"
-      aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top" style="font-family: 'Kanit'">
+  <!-- <div class="container"> -->
+  <a class="navbar-brand" href="#">เฝ้าระวังภัยฯ อุตรดิตถ์</a>
+  <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarColor01"
+    aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
 
-    <div class="navbar-collapse collapse" id="navbarColor01">
-      <ul class="navbar-nav mr-auto">
-        <li class="nav-item">
-          <a class="nav-link" [routerLink]="['/home']"
-            routerLinkActive="router-link-active">สถานการณ์น้ำและดินโคลนถล่ม</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" [routerLink]="['/rain']" routerLinkActive="router-link-active">พายุฝน</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" [routerLink]="['/hotspot']" routerLinkActive="router-link-active">ไฟป่าและหมอกควัน</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" [routerLink]="['/home']" routerLinkActive="router-link-active">ฐานข้อมูล</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" [routerLink]="['/about']" routerLinkActive="router-link-active">เกี่ยวกับเรา</a>
-        </li>
-      </ul>
-    </div>
-
+  <div class="navbar-collapse collapse" id="navbarColor01">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item">
+        <a class="nav-link" [routerLink]="['/home']" routerLinkActive="router-link-active">สถานการณ์น้ำ</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" [routerLink]="['/rain']" routerLinkActive="router-link-active">พายุฝน</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" [routerLink]="['/hotspot']" routerLinkActive="router-link-active">ไฟป่าและหมอกควัน</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" [routerLink]="['/satmeteo']" routerLinkActive="router-link-active">ข้อมูลจากดาวเทียม</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" [routerLink]="['/about']" routerLinkActive="router-link-active">เกี่ยวกับเรา</a>
+      </li>
+    </ul>
   </div>
+
+  <!-- </div> -->
 </nav>

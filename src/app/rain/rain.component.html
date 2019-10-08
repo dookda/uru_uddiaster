@@ -1,16 +1,25 @@
 <div class="mb-6">
-  <div class="container">
-    <div class="card border-secondary mb-3">
-      <!-- <div class="card-header">Header</div> -->
-      <div class="card-body">
-        <h4 class="card-title">สถานการณ์ฝน</h4>
-        <p class="card-text">ข้อมูลเรดาห์กรมอุตุนิยมวิทยาเวลา {{time}}</p>
-      </div>
+  <div class="card border-secondary mb-3">
+    <div class="card-body">
+      <h4 class="card-title">สถานการณ์ฝน</h4>
+      ข้อมูลเรดาห์กรมอุตุนิยมวิทยาล่าสุดเมื่อเวลา <span style="font-size: 20px; font-weight: 600">{{time}}</span>
     </div>
-    <div class="card border-primary mb-3">
-      <div id="map">
-      </div>
-    </div>
-
   </div>
+  <div class="card border-primary mb-3">
+    <div id="map">
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="tile">
+        ที่มา: ข้อมูลการตรวจอากาศด้วยเรดาร์ของ<a href="http://weather.tmd.go.th/">กรมอุตุนิยมวิทยา</a>
+        พัฒนาข้อมูลเป็น web service โดย <a href="http://apirain.tvis.in.th/">
+          ศูนย์เทคโนโลยีอิเล็กทรอนิกส์และคอมพิวเตอร์แห่งชาติ</a>
+        <br>ข้อมูลตรวจอากาศด้วยเรดาร์นี้ มี<a
+          href="http://weather.tmd.go.th/disclaimer.html">ข้อตกลงการใช้งานข้อมูล</a>โดยกรมอุตุนิยมวิทยาครับ
+      </div>
+    </div>
+  </div>
+
 </div>

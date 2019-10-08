@@ -108,8 +108,8 @@ export class RainComponent implements OnInit {
     // });
 
     const baseMap = {
-      'แผนที่ถนน': grod.addTo(this.map),
-      'แผนที่ภูมิประเทศ': gter,
+      'แผนที่ถนน': grod,
+      'แผนที่ภูมิประเทศ': gter.addTo(this.map),
       'แผนที่ผสม': ghyb
     }
 

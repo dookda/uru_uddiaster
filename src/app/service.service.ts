@@ -21,6 +21,9 @@ export class ServiceService {
   public redIcon = `data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB2ZXJzaW9uPSIxLjEiIGlkPSJMYXllcl8xIiB4PSIwcHgiIHk9IjBweCIgdmlld0JveD0iMCAwIDUxMS45OTkgNTExLjk5OSIgc3R5bGU9ImVuYWJsZS1iYWNrZ3JvdW5kOm5ldyAwIDAgNTExLjk5OSA1MTEuOTk5OyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSIgd2lkdGg9IjUxMiIgaGVpZ2h0PSI1MTIiPjxnPjxwYXRoIHN0eWxlPSJmaWxsOiNFRTM4NDA7IiBkPSJNNDU0Ljg0OCwxOTguODQ4YzAsMTU5LjIyNS0xNzkuNzUxLDMwNi42ODktMTc5Ljc1MSwzMDYuNjg5Yy0xMC41MDMsOC42MTctMjcuNjkyLDguNjE3LTM4LjE5NSwwICBjMCwwLTE3OS43NTEtMTQ3LjQ2NC0xNzkuNzUxLTMwNi42ODlDNTcuMTUzLDg5LjAyNywxNDYuMTgsMCwyNTYsMFM0NTQuODQ4LDg5LjAyNyw0NTQuODQ4LDE5OC44NDh6IiBkYXRhLW9yaWdpbmFsPSIjRUUzODQwIj48L3BhdGg+PHBhdGggc3R5bGU9ImZpbGw6I0ZGRTFENiIgZD0iTTI1NiwyOTguODljLTU1LjE2NCwwLTEwMC4wNDEtNDQuODc5LTEwMC4wNDEtMTAwLjA0MVMyMDAuODM4LDk4LjgwNiwyNTYsOTguODA2ICBzMTAwLjA0MSw0NC44NzksMTAwLjA0MSwxMDAuMDQxUzMxMS4xNjQsMjk4Ljg5LDI1NiwyOTguODl6IiBkYXRhLW9yaWdpbmFsPSIjRkZFMUQ2IiBjbGFzcz0iYWN0aXZlLXBhdGgiPjwvcGF0aD48L2c+IDwvc3ZnPg==`;
 
 
+  // tslint:disable-next-line: max-line-length
+  public grayIcon = `data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB2ZXJzaW9uPSIxLjEiIGlkPSJMYXllcl8xIiB4PSIwcHgiIHk9IjBweCIgdmlld0JveD0iMCAwIDUxMS45OTkgNTExLjk5OSIgc3R5bGU9ImVuYWJsZS1iYWNrZ3JvdW5kOm5ldyAwIDAgNTExLjk5OSA1MTEuOTk5OyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSIgd2lkdGg9IjUxMiIgaGVpZ2h0PSI1MTIiIGNsYXNzPSIiPjxnPjxnPjxwYXRoIHN0eWxlPSJmaWxsOiNEMkNGQ0YiIGQ9Ik00NTQuODQ4LDE5OC44NDhjMCwxNTkuMjI1LTE3OS43NTEsMzA2LjY4OS0xNzkuNzUxLDMwNi42ODljLTEwLjUwMyw4LjYxNy0yNy42OTIsOC42MTctMzguMTk1LDAgIGMwLDAtMTc5Ljc1MS0xNDcuNDY0LTE3OS43NTEtMzA2LjY4OUM1Ny4xNTMsODkuMDI3LDE0Ni4xOCwwLDI1NiwwUzQ1NC44NDgsODkuMDI3LDQ1NC44NDgsMTk4Ljg0OHoiIGRhdGEtb3JpZ2luYWw9IiNEMkNGQ0YiIGNsYXNzPSIiIGRhdGEtb2xkX2NvbG9yPSIjRThFMkUyIj48L3BhdGg+PHBhdGggc3R5bGU9ImZpbGw6IzlDOUM5QyIgZD0iTTI1NiwyOTguODljLTU1LjE2NCwwLTEwMC4wNDEtNDQuODc5LTEwMC4wNDEtMTAwLjA0MVMyMDAuODM4LDk4LjgwNiwyNTYsOTguODA2ICBzMTAwLjA0MSw0NC44NzksMTAwLjA0MSwxMDAuMDQxUzMxMS4xNjQsMjk4Ljg5LDI1NiwyOTguODl6IiBkYXRhLW9yaWdpbmFsPSIjOUM5QzlDIiBjbGFzcz0iYWN0aXZlLXBhdGgiIGRhdGEtb2xkX2NvbG9yPSIjQTdBNUE1Ij48L3BhdGg+PC9nPjwvZz4gPC9zdmc+`;
+
   getAirquality() {
     const json = 'https://cors.io/?http://air4thai.pcd.go.th/services/getNewAQI_JSON.php?stationID=69t';
     return new Promise((resolve: any, reject: any) => {
@@ -65,6 +68,17 @@ export class ServiceService {
 
   getCheckpoint() {
     const url = `http://cgi.uru.ac.th:3000/udsafe/checkpoint`;
+    return new Promise((resolve: any, reject: any) => {
+      this.http.get(url).subscribe((res: any) => {
+        resolve(res);
+      }, (err: any) => {
+        reject(err);
+      });
+    });
+  }
+
+  getMeteoService(staId: any) {
+    const url = `http://cgi.uru.ac.th:3000/weather/weather2/${staId}`;
     return new Promise((resolve: any, reject: any) => {
       this.http.get(url).subscribe((res: any) => {
         resolve(res);
