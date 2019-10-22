@@ -21,10 +21,10 @@ export class HotspotComponent implements OnInit {
   public ghyb: any;
   public mbox: any;
 
-  public hp_pl = 0;
-  public hp_pr = 0;
-  public hp_st = 0;
-  public hp_ud = 0;
+  public hpPl = 0;
+  public hpPr = 0;
+  public hpSt = 0;
+  public hpUd = 0;
 
   public time: any;
 
@@ -119,18 +119,18 @@ export class HotspotComponent implements OnInit {
 
     const baseLayers = {
       'map box': mbox,
-      'แผนที่ถนน': grod,
-      'แผนที่ภาพดาวเทียม': ghyb,
-      'แผนที่ภูมิประเทศ': gter.addTo(this.map),
+      แผนที่ถนน: grod,
+      แผนที่ภาพดาวเทียม: ghyb,
+      แผนที่ภูมิประเทศ: gter.addTo(this.map),
     };
 
     const overlayLayers = {
       // 'ไฟ modis 24': fires_modis_24.addTo(this.map),
       // 'ไฟ viirs 24': fires_viirs_24.addTo(this.map),
       // 'ปริมาณน้ำฝน': rainInterp.addTo(this.map),
-      'ขอบเขตตำบล': tam.addTo(this.map),
-      'ขอบเขตอำเภอ': amp.addTo(this.map),
-      'ขอบเขตจังหวัด': pro.addTo(this.map)
+      ขอบเขตตำบล: tam.addTo(this.map),
+      ขอบเขตอำเภอ: amp.addTo(this.map),
+      ขอบเขตจังหวัด: pro.addTo(this.map)
     };
     new L.Control.Layers(baseLayers, overlayLayers).addTo(this.map);
 
@@ -218,10 +218,10 @@ export class HotspotComponent implements OnInit {
     });
 
     await this.dataService.getModis().then((res: any) => {
-      this.hp_pl += res.pl;
-      this.hp_pr += res.pr;
-      this.hp_st += res.st;
-      this.hp_ud += res.ud;
+      this.hpPl += res.pl;
+      this.hpPr += res.pr;
+      this.hpSt += res.st;
+      this.hpUd += res.ud;
 
       L.geoJSON(res.data, {
         pointToLayer: (feature: any, latlng: any) => {
@@ -252,10 +252,10 @@ export class HotspotComponent implements OnInit {
     });
 
     await this.dataService.getViirs().then((res: any) => {
-      this.hp_pl += res.pl;
-      this.hp_pr += res.pr;
-      this.hp_st += res.st;
-      this.hp_ud += res.ud;
+      this.hpPl += res.pl;
+      this.hpPr += res.pr;
+      this.hpSt += res.st;
+      this.hpUd += res.ud;
 
       // this.getChart();
 
